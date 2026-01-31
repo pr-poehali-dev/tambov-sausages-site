@@ -60,7 +60,7 @@ const Index = () => {
           transform: 'translate(0, 0)',
         }}
       >
-        <div className="text-4xl">🌭</div>
+        <div className="text-4xl">🥩</div>
       </div>
       <nav className="sticky top-0 z-50 bg-card/80 backdrop-blur-sm border-b border-border">
         <div className="container mx-auto px-4 py-4 flex justify-between items-center">
