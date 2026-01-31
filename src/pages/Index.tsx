@@ -1,8 +1,19 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import Icon from "@/components/ui/icon";
+import { useState, useEffect } from "react";
 
 const Index = () => {
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      setMousePosition({ x: e.clientX, y: e.clientY });
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
   const products = [
     { name: "Колбаса из кабана", price: "890 ₽/кг", weight: "~0.5 кг" },
     { name: "Колбаса из оленины", price: "1200 ₽/кг", weight: "~0.4 кг" },
@@ -40,12 +51,26 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background cursor-none">
+      <div
+        className="fixed w-12 h-12 pointer-events-none z-[9999] transition-transform duration-100"
+        style={{
+          left: `${mousePosition.x - 24}px`,
+          top: `${mousePosition.y - 24}px`,
+          transform: 'translate(0, 0)',
+        }}
+      >
+        <div className="text-4xl">🌭</div>
+      </div>
       <nav className="sticky top-0 z-50 bg-card/80 backdrop-blur-sm border-b border-border">
         <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-          <h1 className="text-2xl font-bold text-primary">
-            🦌 Тамбовские Колбасы
-          </h1>
+          <div className="flex items-center gap-3">
+            <img
+              src="https://cdn.poehali.dev/projects/fd63b771-307f-4311-b352-ac19ffae48d0/bucket/b8ac5f18-708f-4fb5-bdc4-14787ce007c5.png"
+              alt="Тамбовские Колбасы"
+              className="h-12 w-auto"
+            />
+          </div>
           <div className="hidden md:flex gap-6">
             <button
               onClick={() => scrollToSection("hero")}
@@ -86,15 +111,21 @@ const Index = () => {
         className="relative h-screen flex items-center justify-center overflow-hidden"
       >
         <div
-          className="absolute inset-0 bg-cover bg-center"
+          className="absolute inset-0 bg-cover bg-center transition-transform duration-300"
           style={{
             backgroundImage:
               "url('https://cdn.poehali.dev/projects/fd63b771-307f-4311-b352-ac19ffae48d0/files/78d9c3c5-b014-4d48-be00-f109f936fe5e.jpg')",
+            transform: `translate(${(mousePosition.x - window.innerWidth / 2) * 0.02}px, ${(mousePosition.y - window.innerHeight / 2) * 0.02}px) scale(1.1)`,
           }}
         >
           <div className="absolute inset-0 bg-gradient-to-b from-black/50 to-black/30"></div>
         </div>
-        <div className="relative z-10 text-center text-white px-4">
+        <div
+          className="relative z-10 text-center text-white px-4 transition-transform duration-300"
+          style={{
+            transform: `translate(${(mousePosition.x - window.innerWidth / 2) * 0.01}px, ${(mousePosition.y - window.innerHeight / 2) * 0.01}px)`,
+          }}
+        >
           <h2 className="text-5xl md:text-7xl font-bold mb-6 drop-shadow-lg">
             Натуральная колбаса из дичи
           </h2>
